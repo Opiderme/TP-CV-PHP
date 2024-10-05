@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Curriculum Vitae</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="./output.css" rel="stylesheet">
 </head>
 <body>
     <?php
@@ -27,7 +27,7 @@
 
         <!-- Profile Section -->
         <section class="profile">
-            <h2>Profile</h2>
+            <h2 class="text-3xl font-bold underline">Profile</h2>
             <p><?php echo $profileDescription; ?></p>
         </section>
 
