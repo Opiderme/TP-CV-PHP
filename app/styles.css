@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* General Styling */
+/* General Styling 
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -12,7 +12,7 @@ body {
     color: #333;
   }
   
-  /* Container */
+
   .container {
     width: 80%;
     margin: 0 auto;
@@ -21,7 +21,7 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
   
-  /* Header */
+
   header {
     text-align: center;
     border-bottom: 2px solid #ccc;
@@ -38,7 +38,7 @@ body {
     font-size: 1rem;
   }
   
-  /* Sections */
+
   section {
     margin: 20px 0;
   }
@@ -55,21 +55,20 @@ body {
     margin: 10px 0;
   }
   
-  /* Job Experience */
+
   .job h3 {
     font-size: 1.2rem;
     margin-bottom: 5px;
     color: #444;
   }
-  
-  /* Skills */
+
   .skills ul,
   .projects ul {
     list-style-type: disc;
     padding-left: 20px;
   }
   
-  /* Footer */
+
   footer {
     text-align: center;
     border-top: 2px solid #ccc;
@@ -89,4 +88,4 @@ body {
   footer a:hover {
     text-decoration: underline;
   }
-  
+  */
