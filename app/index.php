@@ -1,3 +1,34 @@
+<?php
+session_start();
+require 'db.php'; // Include the database connection
+
+// Check if the user is logged in as admin
+$isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
+
+// Fetch personal information from the database
+//$stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = 1');
+//$stmt->execute();
+//$personalInfo = $stmt->fetch();
+
+// Handle form submission and update the database (admin only)
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $isAdmin) {
+    $name = $_POST['name'];
+    $title = $_POST['title'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $profileDescription = $_POST['profileDescription'];
+
+    // Update personal information in the database
+    $stmt = $pdo->prepare('UPDATE personal_info SET name = ?, title = ?, email = ?, phone = ?, profile_description = ? WHERE id = 1');
+    $stmt->execute([$name, $title, $email, $phone, $profileDescription]);
+
+    // Redirect to the CV page to reflect the changes
+    header("Location: index.php");
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +74,7 @@
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Profile</a>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Log in <span aria-hidden="true">&rarr;</span></a>
+                <a href="login.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Log in <span aria-hidden="true">&rarr;</span></a>
             </div>
             </nav>
             <!-- Mobile menu, show/hide based on menu open state. -->
@@ -54,7 +85,7 @@
                 <div class="flex items-center justify-between">
                 <a href="#" class="-m-1.5 p-1.5">
                     <span class="sr-only">Your Company</span>
-                    <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
+                    <img class="h-8 w-auto" src="https://support.ynov.com/hc/theming_assets/01HZP9F20X0889CZX2V6ZJH3Z5" alt="">
                 </a>
                 <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
                     <span class="sr-only">Close menu</span>

@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   webserver:
     image: nginx:latest
@@ -6,10 +8,18 @@ services:
     volumes:
       - ./services/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
       - ../app:/app
+    networks:
+      - app-network
+
   app:
-    build: services/php
+    build: ./services/php
     volumes:
       - ../app:/app
+    depends_on:
+      - db
+    networks:
+      - app-network
+
   db:
     image: mariadb:latest
     environment:
@@ -18,11 +28,20 @@ services:
     volumes:
       - mysqldata:/var/lib/mysql
     ports:
-      - 3306:3306
+      - "3306:3306"
+    networks:
+      - app-network
+
   adminer:
     image: adminer:latest
     ports:
       - "8080:8080"
+    networks:
+      - app-network
 
 volumes:
   mysqldata: {}
+
+networks:
+  app-network:
+    driver: bridge
