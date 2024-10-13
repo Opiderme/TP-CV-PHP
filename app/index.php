@@ -6,21 +6,17 @@ require 'db.php'; // Include the database connection
 $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
 
 // Fetch personal information from the database
-//$stmt = $pdo->prepare('SELECT * FROM personal_info WHERE id = 1');
-//$stmt->execute();
-//$personalInfo = $stmt->fetch();
+$stmt = $pdo->prepare('SELECT * FROM users WHERE id = 1');
+$stmt->execute();
+$personalInfo = $stmt->fetch();
 
 // Handle form submission and update the database (admin only)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $isAdmin) {
-    $name = $_POST['name'];
-    $title = $_POST['title'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $profileDescription = $_POST['profileDescription'];
-
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
     // Update personal information in the database
-    $stmt = $pdo->prepare('UPDATE personal_info SET name = ?, title = ?, email = ?, phone = ?, profile_description = ? WHERE id = 1');
-    $stmt->execute([$name, $title, $email, $phone, $profileDescription]);
+    $stmt = $pdo->prepare('UPDATE users SET first_name = ?, last_name = ? WHERE id = 1');
+    $stmt->execute([$first_name, $last_name]);
 
     // Redirect to the CV page to reflect the changes
     header("Location: index.php");
@@ -74,7 +70,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $isAdmin) {
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Profile</a>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <a href="login.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Log in <span aria-hidden="true">&rarr;</span></a>
+                <p class="text-sm font-semibold leading-6 text-white-900 z-50"><?php echo $personalInfo['first_name']; ?></p>
+                <p class="text-sm font-semibold leading-6 text-white-900 z-50"><?php echo $personalInfo['last_name']; ?></p>
+                <?php if ($isAdmin): ?>
+                    <a href="logout.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Logout</a>
+                <?php else: ?>
+                    <a href="login.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Log in <span aria-hidden="true">&rarr;</span></a>
+                <?php endif; ?>
+                
             </div>
             </nav>
             <!-- Mobile menu, show/hide based on menu open state. -->

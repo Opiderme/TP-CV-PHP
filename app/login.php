@@ -8,12 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Prepare the SQL query to fetch the user by username
-    $stmt = $pdo->prepare('SELECT * FROM admins WHERE username = ?');
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
     $stmt->execute([$username]);
-    $admin = $stmt->fetch();
+    $users = $stmt->fetch();
     // echo $admin['password'];
     // If the admin user is found, verify the password
-    if ($admin['password'] && password_verify($password, $admin['password'])) {
+    if ($users['password'] && password_verify($password, $users['password'])) {
         // Set session for admin user
         $_SESSION['is_admin'] = true;
         // Redirect to the CV page
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div>
         <label for="email" class="block text-sm font-medium leading-6 text-white">Email address</label>
         <div class="mt-2">
-          <input id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="username" name="username" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
