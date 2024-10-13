@@ -15,9 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If the admin user is found, verify the password
     if ($users['password'] && password_verify($password, $users['password'])) {
         // Set session for admin user
-        $_SESSION['is_admin'] = true;
-        // Redirect to the CV page
-        header("Location:index.php");
+        $_SESSION['user_id'] = $users['id']; // Enregistrer l'ID de l'utilisateur
+        $_SESSION['is_admin'] = true; // Si l'utilisateur est admin
+        header("Location: index.php");
         exit;
     } else {
         $error = "Invalid username or password!";

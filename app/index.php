@@ -1,14 +1,30 @@
 <?php
 session_start();
-require 'db.php'; // Include the database connection
+require 'db.php'; // Inclure la connexion à la base de données
 
-// Check if the user is logged in as admin
+// Vérifiez si l'utilisateur est connecté
+if (!isset($_SESSION['user_id'])) {
+    // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+    header("Location: login.php");
+    exit;
+}
+
+// Récupérer l'ID de l'utilisateur connecté depuis la session
+$userId = $_SESSION['user_id'];
+
+// Vérifier si l'utilisateur est un administrateur
 $isAdmin = isset($_SESSION['is_admin']) && $_SESSION['is_admin'];
 
-// Fetch personal information from the database
-$stmt = $pdo->prepare('SELECT * FROM users WHERE id = 1');
-$stmt->execute();
+// Récupérer les informations personnelles de l'utilisateur connecté depuis la base de données
+$stmt = $pdo->prepare('SELECT * FROM users WHERE id = ?');
+$stmt->execute([$userId]);
 $personalInfo = $stmt->fetch();
+
+// Si aucune information n'est trouvée, rediriger ou afficher un message d'erreur
+if (!$personalInfo) {
+    echo "Utilisateur non trouvé.";
+    exit;
+}
 
 // Handle form submission and update the database (admin only)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $isAdmin) {
@@ -76,6 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $isAdmin) {
                     <a href="logout.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Logout</a>
                 <?php else: ?>
                     <a href="login.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Log in <span aria-hidden="true">&rarr;</span></a>
+                    <a href="register.php" class="text-sm font-semibold leading-6 text-white-900 z-50">register <span aria-hidden="true">&rarr;</span></a>
+
                 <?php endif; ?>
                 
             </div>
