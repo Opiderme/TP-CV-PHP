@@ -35,6 +35,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo->prepare('INSERT INTO users (first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?)');
             $stmt->execute([$first_name, $last_name, $email, $username, $hashed_password]);
 
+            $stmt = $pdo->prepare('SELECT id FROM users WHERE username = ?');
+            $stmt->execute([$username]);
+            $userId = $stmt->fetchColumn(); // Récupérer l'ID de l'utilisateur
+            
+            $stmt = $pdo->prepare("INSERT INTO education (user_id) 
+                                   VALUES (?)");
+            $stmt->execute([$userId]);
+
+            $stmt = $pdo->prepare("INSERT INTO experiences (user_id) 
+                                   VALUES (?)");
+            $stmt->execute([$userId]);
+
+            $stmt = $pdo->prepare("INSERT INTO skills (user_id) 
+                                   VALUES (?)");
+            $stmt->execute([$userId]);
+
+            $stmt = $pdo->prepare("INSERT INTO skills (user_id) 
+                                   VALUES (?)");
+            $stmt->execute([$userId]);
+
+            $stmt = $pdo->prepare("INSERT INTO projects (user_id) 
+                                   VALUES (?)");
+            $stmt->execute([$userId]);
             // Démarrer une session pour l'utilisateur nouvellement inscrit
             $_SESSION['username'] = $username;
 

@@ -29,14 +29,77 @@ CREATE TABLE IF NOT EXISTS admins (
 INSERT INTO admins (username, password) 
 VALUES ('admin', '$2y$10$ybOP3hulir7vLGAC4A8xUe9nAEAVnGZHsPWcdo7.EWUANkcKwFVLi'); -- Password: password123
 
-CREATE TABLE IF NOT EXISTS users (
+/*CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
+);*/
+
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(100),
+    password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    email VARCHAR(255) UNIQUE,
+    phone VARCHAR(20),
+    linkedin VARCHAR(255),
+    github VARCHAR(255),
+    job_title VARCHAR(255), -- Titre du CV, ex: "Développeur Full Stack"
+    profile_description TEXT -- Profil professionnel (description brève du parcours)
 );
+
 
 INSERT INTO users (username, password, first_name, last_name, email) 
 VALUES ('opiderme', '$2y$10$ybOP3hulir7vLGAC4A8xUe9nAEAVnGZHsPWcdo7.EWUANkcKwFVLi', 'opi', 'derme', 'opiderme@gmail.com');
+
+CREATE TABLE experiences (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT, -- Relation avec la table 'users'
+    company_name VARCHAR(255), -- Nom de l'entreprise
+    job_title VARCHAR(255), -- Intitulé du poste
+    start_date DATE, -- Date de début de l'emploi
+    end_date DATE, -- Date de fin, NULL si toujours en poste
+    description TEXT, -- Description des missions et réalisations
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE skills (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT, -- Relation avec la table 'users'
+    skill_name VARCHAR(255), -- Nom de la compétence (ex: "HTML", "Leadership")
+    skill_type ENUM('technical', 'soft') DEFAULT 'technical', -- Type de compétence
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE education (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT, -- Relation avec la table 'users'
+    degree VARCHAR(255), -- Diplôme (ex: "Master en Informatique")
+    institution VARCHAR(255), -- Nom de l'établissement
+    start_date DATE, -- Date de début
+    end_date DATE, -- Date de fin
+    description TEXT, -- Réalisations ou distinctions
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE projects (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT, -- Relation avec la table 'users'
+    project_name VARCHAR(255), -- Nom du projet
+    description TEXT, -- Brève description du projet
+    result TEXT, -- Résultats obtenus (ex: "augmentation de 10% du trafic")
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE certifications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT, -- Relation avec la table 'users'
+    certification_name VARCHAR(255), -- Nom de la certification (ex: "Certification AWS")
+    institution VARCHAR(255), -- Nom de l'institution ou de l'organisme de certification
+    date_obtained DATE, -- Date à laquelle la certification a été obtenue
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
