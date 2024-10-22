@@ -26,6 +26,40 @@ if (!$personalInfo) {
     exit;
 }
 
+$userId = $_SESSION['user_id'];
+
+try {
+    // Récupérer les informations personnelles de l'utilisateur
+    $stmt = $pdo->prepare("SELECT first_name, last_name, email, phone, linkedin, github, job_title, profile_description FROM users WHERE id = ?");
+    $stmt->execute([$userId]);
+    $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Récupérer les informations d'éducation
+    $stmt = $pdo->prepare("SELECT degree, institution, start_date, end_date, description FROM education WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $educationInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Récupérer les expériences professionnelles
+    $stmt = $pdo->prepare("SELECT company_name, job_title, start_date, end_date, description FROM experiences WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $experienceInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Récupérer les compétences
+    $stmt = $pdo->prepare("SELECT skill_name, skill_type FROM skills WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $skillsInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //var_dump($skillsInfo);
+    //exit;
+
+    // Récupérer les projets
+    $stmt = $pdo->prepare("SELECT project_name, description FROM projects WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $projectsInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (Exception $e) {
+    echo "Error fetching CV information: " . $e->getMessage();
+}
+
 ?>
 
 
@@ -130,77 +164,77 @@ if (!$personalInfo) {
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label for="first_name" class="block text-sm font-medium">First Name</label>
-                                    <input type="text" name="first_name" id="first_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required>
+                                    <input type="text" name="first_name" id="first_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($userInfo['first_name'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="last_name" class="block text-sm font-medium">Last Name</label>
-                                    <input type="text" name="last_name" id="last_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required>
+                                    <input type="text" name="last_name" id="last_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($userInfo['last_name'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="email" class="block text-sm font-medium">Email</label>
-                                    <input type="email" name="email" id="email" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required>
+                                    <input type="email" name="email" id="email" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($userInfo['email'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="phone" class="block text-sm font-medium">Phone</label>
-                                    <input type="tel" name="phone" id="phone" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required>
+                                    <input type="tel" name="phone" id="phone" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($userInfo['phone'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="linkedin" class="block text-sm font-medium">LinkedIn</label>
-                                    <input type="url" name="linkedin" id="linkedin" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="url" name="linkedin" id="linkedin" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white " value="<?php echo htmlspecialchars($userInfo['linkedin'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="github" class="block text-sm font-medium">GitHub</label>
-                                    <input type="url" name="github" id="github" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="url" name="github" id="github" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($userInfo['github'] ?? ''); ?>">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="job_title" class="block text-sm font-medium">Job Title</label>
-                                    <input type="text" name="job_title" id="job_title" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required>
+                                    <input type="text" name="job_title" id="job_title" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($userInfo['job_title'] ?? ''); ?>">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="profile_description" class="block text-sm font-medium">Profile Description</label>
-                                    <textarea name="profile_description" id="profile_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required></textarea>
+                                    <textarea name="profile_description" id="profile_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white"><?= htmlspecialchars($userInfo['profile_description'] ?? '') ?></textarea>
                                 </div>
                             </div>
 
-                            <!-- Qualifications and Work Experience -->
+                            <!-- Qualifications and Work Experience 
                             <h3 class="text-xl font-semibold mb-4">Qualifications & Work Experience</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label for="education" class="block text-sm font-medium">Highest Qualification</label>
-                                    <input type="text" name="education" id="education" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required>
+                                    <input type="text" name="education" id="education" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" >
                                 </div>
                                 <div>
                                     <label for="school" class="block text-sm font-medium">Institution</label>
-                                    <input type="text" name="school" id="school" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required>
+                                    <input type="text" name="school" id="school" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="experience" class="block text-sm font-medium">Work Experience</label>
-                                    <textarea name="experience" id="experience" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" required></textarea>
+                                    <textarea name="experience" id="experience" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="></textarea>
                                 </div>
-                            </div>
+                            </div>-->
 
                             <!-- Experience Section -->
                             <h3 class="text-xl font-semibold mt-8 mb-4">Work Experience</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label for="company_name" class="block text-sm font-medium">Company Name</label>
-                                    <input type="text" name="company_name[]" id="company_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="text" name="company_name[]" id="company_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($experienceInfo[0]['company_name']  ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="job_title" class="block text-sm font-medium">Job Title</label>
-                                    <input type="text" name="job_title[]" id="job_title" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="text" name="job_title[]" id="job_title" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($experienceInfo[0]['job_title'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="start_date" class="block text-sm font-medium">Start Date</label>
-                                    <input type="date" name="start_date[]" id="start_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="date" name="start_date[]" id="start_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($experienceInfo[0]['start_date'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="end_date" class="block text-sm font-medium">End Date</label>
-                                    <input type="date" name="end_date[]" id="end_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="date" name="end_date[]" id="end_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($experienceInfo[0]['end_date'] ?? ''); ?>">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="experience_description" class="block text-sm font-medium">Description</label>
-                                    <textarea name="experience_description[]" id="experience_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white"></textarea>
+                                    <textarea name="experience_description[]" id="experience_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white"><?= htmlspecialchars($experienceInfo[0]['description'] ?? '') ?></textarea>
                                 </div>
                             </div>
 
@@ -209,7 +243,7 @@ if (!$personalInfo) {
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label for="skill_name" class="block text-sm font-medium">Skill</label>
-                                    <input type="text" name="skill_name[]" id="skill_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="text" name="skill_name[]" id="skill_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($skillsInfo[0]['skill_name'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="skill_type" class="block text-sm font-medium">Type</label>
@@ -225,23 +259,23 @@ if (!$personalInfo) {
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label for="degree" class="block text-sm font-medium">Degree</label>
-                                    <input type="text" name="degree[]" id="degree" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="text" name="degree[]" id="degree" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($educationInfo[0]['degree'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="institution" class="block text-sm font-medium">Institution</label>
-                                    <input type="text" name="institution[]" id="institution" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="text" name="institution[]" id="institution" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($educationInfo[0]['institution'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="education_start_date" class="block text-sm font-medium">Start Date</label>
-                                    <input type="date" name="education_start_date[]" id="education_start_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="date" name="education_start_date[]" id="education_start_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($educationInfo[0]['start_date'] ?? ''); ?>">
                                 </div>
                                 <div>
                                     <label for="education_end_date" class="block text-sm font-medium">End Date</label>
-                                    <input type="date" name="education_end_date[]" id="education_end_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="date" name="education_end_date[]" id="education_end_date" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($educationInfo[0]['end_date'] ?? ''); ?>">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="education_description" class="block text-sm font-medium">Description</label>
-                                    <textarea name="education_description[]" id="education_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white"></textarea>
+                                    <textarea name="education_description[]" id="education_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white"><?= htmlspecialchars($educationInfo[0]['description'] ?? '') ?></textarea>
                                 </div>
                             </div>
 
@@ -250,11 +284,11 @@ if (!$personalInfo) {
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
                                     <label for="project_name" class="block text-sm font-medium">Project Name</label>
-                                    <input type="text" name="project_name[]" id="project_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white">
+                                    <input type="text" name="project_name[]" id="project_name" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white" value="<?php echo htmlspecialchars($projectsInfo[0]['project_name'] ?? ''); ?>">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="project_description" class="block text-sm font-medium">Description</label>
-                                    <textarea name="project_description[]" id="project_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white"></textarea>
+                                    <textarea name="project_description[]" id="project_description" class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 text-white"><?= htmlspecialchars($projectsInfo[0]['description'] ?? '') ?></textarea>
                                 </div>
                             </div>
 
@@ -267,8 +301,101 @@ if (!$personalInfo) {
                         </form>
                     </div>
                 </div>
+                <div class="max-w-4xl mx-auto p-6 bg-[#7584C7]/30 text-white backdrop-blur-sm shadow-md rounded-lg mt-10">
+        <h1 class="text-4xl font-bold text-center text-blue-600 mb-10">Mon CV</h1>
+
+        <!-- Informations personnelles -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold text-[#C2CDFF] border-b-2 border-blue-600 mb-4">Informations personnelles</h2>
+            <ul class="space-y-2 text-[#C2CDFF]">
+                <li><strong>Nom :</strong> <?php echo htmlspecialchars($userInfo['first_name'] . " " . $userInfo['last_name']); ?></li>
+                <li><strong>Email :</strong> <?php echo htmlspecialchars($userInfo['email']); ?></li>
+                <li><strong>Téléphone :</strong> <?php echo htmlspecialchars($userInfo['phone']); ?></li>
+            </ul>
+        </div>
+
+        <!-- Éducation -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold text-[#C2CDFF] border-b-2 border-blue-600 mb-4">Éducation</h2>
+            <?php if (!empty($educationInfo)) : ?>
+                <ul class="space-y-4 text-[#C2CDFF]">
+                    <?php foreach ($educationInfo as $education) : ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($education['degree']); ?></strong> - 
+                            <?php echo htmlspecialchars($education['institution']); ?><br>
+                            <span class="text-sm text-[#C2CDFF]">
+                                <?php echo htmlspecialchars($education['start_date']); ?> - 
+                                <?php echo htmlspecialchars($education['end_date']); ?>
+                            </span><br>
+                            <p class="mt-2"><?php echo htmlspecialchars($education['description']); ?></p>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else : ?>
+                <p>Aucune information d'éducation disponible.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- Expériences professionnelles -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold text-[#C2CDFF] border-b-2 border-blue-600 mb-4">Expériences professionnelles</h2>
+            <?php if (!empty($experienceInfo)) : ?>
+                <ul class="space-y-4 text-[#C2CDFF]">
+                    <?php foreach ($experienceInfo as $experience) : ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($experience['job_title']); ?></strong> - 
+                            <?php echo htmlspecialchars($experience['company_name']); ?><br>
+                            <span class="text-sm text-[#C2CDFF]">
+                                <?php echo htmlspecialchars($experience['start_date']); ?> - 
+                                <?php echo htmlspecialchars($experience['end_date']); ?>
+                            </span><br>
+                            <p class="mt-2"><?php echo htmlspecialchars($experience['description']); ?></p>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else : ?>
+                <p>Aucune expérience professionnelle disponible.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- Compétences -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold text-[#C2CDFF] border-b-2 border-blue-600 mb-4">Compétences</h2>
+            <?php if (!empty($skillsInfo)) : ?>
+                <ul class="space-y-2 text-[#C2CDFF]">
+                    <?php foreach ($skillsInfo as $skill) : ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($skill['skill_name']); ?></strong> - 
+                            <?php echo htmlspecialchars($skill['skill_type']); ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else : ?>
+                <p>Aucune compétence disponible.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- Projets -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold text-[#C2CDFF] border-b-2 border-blue-600 mb-4">Projets</h2>
+            <?php if (!empty($projectsInfo)) : ?>
+                <ul class="space-y-4 text-[#C2CDFF]">
+                    <?php foreach ($projectsInfo as $project) : ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($project['project_name']); ?></strong><br>
+                            <p class="mt-2"><?php echo htmlspecialchars($project['description']); ?></p>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else : ?>
+                <p>Aucun projet disponible.</p>
+            <?php endif; ?>
+        </div>
+    </div>
     <!---------------------------------------------------------------->
-            <div class="absolute inset-x-0 top-[calc(100%-50rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-50rem)]" aria-hidden="true">            </div>
+    <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-50rem)]" aria-hidden="true">
+      <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
         </div>
         <footer>
             <div class="px-6 py-12 bg-gray-800 text-white text-sm text-center">

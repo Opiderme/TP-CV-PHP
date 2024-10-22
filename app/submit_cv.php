@@ -25,10 +25,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $last_name = $_POST['last_name'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
+        $linkedin = $_POST['linkedin'];
+        $github = $_POST['github'];
+        $job_title = implode(',', $_POST['job_title']);
+        $profile_description = $_POST['profile_description'];
+
 
         // Mettre à jour les informations personnelles
-        $stmt = $pdo->prepare('UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?');
-        $stmt->execute([$first_name, $last_name, $email, $phone, $userId]);
+        $stmt = $pdo->prepare('UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, linkedin = ?, github = ?, job_title = ?, profile_description = ? WHERE id = ?');
+        $stmt->execute([$first_name, $last_name, $email, $phone, $linkedin, $github, $job_title, $profile_description, $userId]);
 
         // Insertion des diplômes/éducation
         foreach ($_POST['degree'] as $index => $degree) {
