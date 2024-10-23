@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="flex items-center justify-between">
           <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
           <div class="text-sm">
-            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+            <a href="register.php" class="font-semibold text-indigo-600 hover:text-indigo-500">Register -></a>
           </div>
         </div>
         <div class="mt-2">

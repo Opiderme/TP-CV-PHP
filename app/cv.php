@@ -113,8 +113,7 @@ try {
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Profile</a>
             </div>
             <div class="lg:flex lg:flex-1 lg:justify-end">
-                <p class="text-sm font-semibold leading-6 text-white-900 z-50"><?php echo $personalInfo['first_name']; ?></p>
-                <p class="text-sm font-semibold leading-6 text-white-900 z-50"><?php echo $personalInfo['last_name']; ?></p>
+                <p class="relative text-sm font-semibold leading-6 text-white-900 z-50 right-2"><?= htmlspecialchars($personalInfo['first_name']. ' ' . $personalInfo['last_name']) ?></p>
                 <?php if ($isAdmin): ?>
                     <a href="logout.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Logout</a>
                 <?php else: ?>
