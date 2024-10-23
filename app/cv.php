@@ -108,7 +108,7 @@ try {
             </div>
             <div class="lg:flex lg:gap-x-12">
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Your CV</a>
-                <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Projets</a>
+                <a href="projets.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Projets</a>
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Contact</a>
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Profile</a>
             </div>
