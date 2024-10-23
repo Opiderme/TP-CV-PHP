@@ -46,7 +46,7 @@ To run this project locally, follow these steps:
      password : root
      ```
    - Go to "Requête SQL" and run this sql query:
-     ```bash
+     ```SQL
     CREATE TABLE IF NOT EXISTS personal_info (
         id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
