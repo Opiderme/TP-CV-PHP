@@ -69,17 +69,17 @@ To run this project locally, follow these steps:
     VALUES ('admin', '$2y$10$ybOP3hulir7vLGAC4A8xUe9nAEAVnGZHsPWcdo7.EWUANkcKwFVLi');
 
     CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(100),
-    password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    email VARCHAR(255) UNIQUE,
-    phone VARCHAR(20),
-    linkedin VARCHAR(255),
-    github VARCHAR(255),
-    job_title VARCHAR(255),
-    profile_description TEXT
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        username VARCHAR(100),
+        password VARCHAR(255) NOT NULL,
+        first_name VARCHAR(100),
+        last_name VARCHAR(100),
+        email VARCHAR(255) UNIQUE,
+        phone VARCHAR(20),
+        linkedin VARCHAR(255),
+        github VARCHAR(255),
+        job_title VARCHAR(255),
+        profile_description TEXT
     );
 
 
