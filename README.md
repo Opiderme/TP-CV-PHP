@@ -46,7 +46,7 @@ To run this project locally, follow these steps:
      password : root
      ```
    - Go to "Requête SQL" and run this sql query:
-     ```php
+     ```bash
      -- Create table for personal information
     CREATE TABLE IF NOT EXISTS personal_info (
         id INT PRIMARY KEY AUTO_INCREMENT,
