@@ -17,8 +17,6 @@ This project is a **CV Management System** built with **PHP** and **Tailwind CSS
 - [Usage](#usage)
 - [Technologies](#technologies)
 - [Database Structure](#database-structure)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -46,7 +44,7 @@ To run this project locally, follow these steps:
      password : root
      ```
    - Go to "Requête SQL" and run this sql query:
-   
+
      ```
     CREATE TABLE users (
         id INT PRIMARY KEY AUTO_INCREMENT,
