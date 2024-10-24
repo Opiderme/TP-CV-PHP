@@ -310,6 +310,10 @@ try {
                 <li><strong>Nom :</strong> <?php echo htmlspecialchars($userInfo['first_name'] . " " . $userInfo['last_name']); ?></li>
                 <li><strong>Email :</strong> <?php echo htmlspecialchars($userInfo['email']); ?></li>
                 <li><strong>Téléphone :</strong> <?php echo htmlspecialchars($userInfo['phone']); ?></li>
+                <li><strong>LinkedIn :</strong> <?php echo htmlspecialchars($userInfo['linkedin']); ?></li>
+                <li><strong>GitHub :</strong> <?php echo htmlspecialchars($userInfo['github']); ?></li>
+                <li><strong>Job Title :</strong> <?php echo htmlspecialchars($userInfo['job_title']); ?></li>
+                <li><strong>Profile Description :</strong> <?php echo htmlspecialchars($userInfo['profile_description']); ?></li>
             </ul>
         </div>
 

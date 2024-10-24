@@ -46,6 +46,7 @@ To run this project locally, follow these steps:
      password : root
      ```
    - Go to "Requête SQL" and run this sql query:
+   
      ```
     CREATE TABLE users (
         id INT PRIMARY KEY AUTO_INCREMENT,
