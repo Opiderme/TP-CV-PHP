@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Set session for admin user
         $_SESSION['user_id'] = $users['id']; // Enregistrer l'ID de l'utilisateur
         $_SESSION['is_admin'] = true; // Si l'utilisateur est admin
-        header("Location: index.php");
+        header("Location: /");
         exit;
     } else {
         $error = "Invalid username or password!";
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="flex items-center justify-between">
           <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
           <div class="text-sm">
-            <a href="register.php" class="font-semibold text-indigo-600 hover:text-indigo-500">Register -></a>
+            <a href="/register" class="font-semibold text-indigo-600 hover:text-indigo-500">Register -></a>
           </div>
         </div>
         <div class="mt-2">

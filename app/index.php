@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require 'db.php'; // Inclure la connexion à la base de données
 
 // Vérifiez si l'utilisateur est connecté
@@ -85,18 +86,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $isAdmin) {
                 </a>
             </div>
             <div class="lg:flex lg:gap-x-12">
-                <a href="cv.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Your CV</a>
-                <a href="projets.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Projets</a>
+                <a href="/cv" class="text-sm font-semibold leading-6 text-white-900 z-50">Your CV</a>
+                <a href="/projets" class="text-sm font-semibold leading-6 text-white-900 z-50">Projets</a>
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Contact</a>
                 <a href="#" class="text-sm font-semibold leading-6 text-white-900 z-50">Profile</a>
             </div>
             <div class="lg:flex lg:flex-1 lg:justify-end">
                 <p class="relative text-sm font-semibold leading-6 text-white-900 z-50 right-2"><?= htmlspecialchars($personalInfo['first_name']. ' ' . $personalInfo['last_name']) ?></p>
                 <?php if ($isAdmin): ?>
-                    <a href="logout.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Logout</a>
+                    <a href="/logout" class="text-sm font-semibold leading-6 text-white-900 z-50">Logout</a>
                 <?php else: ?>
-                    <a href="login.php" class="text-sm font-semibold leading-6 text-white-900 z-50">Log in <span aria-hidden="true">&rarr;</span></a>
-                    <a href="register.php" class="text-sm font-semibold leading-6 text-white-900 z-50">register <span aria-hidden="true">&rarr;</span></a>
+                    <a href="/login" class="text-sm font-semibold leading-6 text-white-900 z-50">Log in <span aria-hidden="true">&rarr;</span></a>
+                    <a href="/register" class="text-sm font-semibold leading-6 text-white-900 z-50">register <span aria-hidden="true">&rarr;</span></a>
 
                 <?php endif; ?>                
             </div>
